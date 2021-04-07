@@ -2,14 +2,14 @@
 
 const path = require('path')
 const program = require('commander')
-const packageJson = require('../package.json')
+const packageJson = require('./package.json')
 const inquirer = require("inquirer")
 const ora = require("ora")
 const fs = require('fs')
-const { checkDeployExists } = require('../lib/init')
+const { checkDeployExists } = require('./lib/init')
 const deployPath = path.join(process.cwd(), './deploy')
 const deployConfigPath = `${deployPath}/deploy.config.js`
-const { checkConfigIsValid } = require('../utils/index')
+const { checkConfigIsValid } = require('./utils/index')
 
 
 const version = packageJson.version
@@ -18,13 +18,14 @@ program
   .command('init')
   .action(() => {
     checkDeployExists()
+    if (fs.existsSync(deployConfigPath)) {
+        deploy()
+    }
   })
-  if (fs.existsSync(deployConfigPath)) {
-      deploy()
-  }
 
 // 如果配置文件存在，则进入部署流程
 function deploy() {
+    console.log(123)
     // 校验配置是否有效
     if (deployConfigPath) {
         const configVaild = checkConfigIsValid(deployConfigPath)
@@ -49,7 +50,7 @@ function deploy() {
                 if (!sure) {
                     process.exit(1)
                 }
-                const runUploadTask = require('../deploy')
+                const runUploadTask = require('./deploy')
                 runUploadTask()
             })
           })
