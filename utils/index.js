@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 const fs = require('fs')
 function checkConfigIsValid(deployConfigPath) {
+    const data = require(deployConfigPath)
     if (fs.existsSync(deployConfigPath)) {
         const config = []
-        Object.keys(deployConfigPath).forEach(key => {
-            if (deployConfigPath[key] instanceof Object) {
-                deployConfigPath[key].command = key
-                deployConfigPath[key].name = deployConfigPath[name]
-                config.push(deployConfigPath[key])
+        Object.keys(data).forEach(key => {
+            if (data[key] instanceof Object) {
+                data[key].command = key
+                data[key].name = data.name
+                config.push(data[key])
             }
         })
         return config
